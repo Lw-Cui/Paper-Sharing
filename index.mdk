@@ -1,0 +1,71 @@
+[INCLUDE=presentation]
+Title         : 文章分享
+Sub Title     : WiBee: Building WiFi Radio Map with ZigBee Sensor Networks
+Author        : 崔利伟
+Affiliation   : 哈尔滨工业大学
+Email         : cui@hellolw.com
+Reveal Theme  : sky
+Beamer Theme  : singapore
+Package       : [UTF8]ctex
+
+[TITLE]
+
+# Section one: 文章总览
+
+# What:做了什么？
+本文描述了如何通过**ZigBee传感器网络**来获得某一区域的**无线信号强度分布图(WiFi Radio Map)**。
+
+* 无线信号强度分布图*(WiFi Radio Map)*可以展示一个给定环境下不同地点的WiFi 接入点的信号强度。
+
+# Meaning:有什么意义？
+* 用户可以选择信号最好的接入点
+* 用户可移动到信号更好的地方进行连接
+* **用户可以享受到更好的服务**
+
+## premise:我们发现...
+* 传感器网的部署越来越广泛
+* ZigBee 传感器可以感知到WiFi信号(虽然不能解码)
+* ZigBee 的采样和WiFi 的真实强度有着稳定的关系
+
+## Challenge:但也存在一些问题...
+1. 可能有多个接入点同时发信号，ZigBee 分不出来
+* ZigBee 的采样范围太小
+* ZigBee 的时钟是不与网关同步的，并且有时钟漂移
+
+# Conclusion:所以...
+1. 我们可以用ZigBee 来采样
+* 使用网关来协助ZigBee 分出不同的AP
+* 通过算法来修正其中的错误
+* **最终获得信号强度分布图**
+
+
+# Section two: 具体设计
+
+~ Begin Vertical
+# Step by Step: 具体实现
+1. {.fragment}**用户**向**网关**发送请求，**网关**向**ZigBee**广播需要监听的频道
+* {.fragment}**ZigBee**开始对要监听的信道采样
+* {.fragment}**网关**嗅探该信道并获取一系列WiFi帧，之后向**ZigBee**广播每个**接入点**的特征序列
+*  {.fragment}**ZigBee**通过比对分离，计算出每个**接入点**的信号强度并送回**网关**
+* {.fragment}**网关**汇总结果并返回**用户**
+
+# architecture:具体架构
+~ Figure { #fig-figure; caption:"Architecture"}
+![2016-05-29 19:50:40屏幕截图]
+~
+
+[2016-05-29 19:50:40屏幕截图]: images/2016-05-29-19-50-40-.png "2016-05-29 19:50:40屏幕截图" { width:auto; max-width:90% }
+~ End Vertical
+
+
+~ Begin Vertical 
+# 网关会看到什么样的序列？
+~ Figure { #fig-figure; caption:"对于一个AP的序列"}
+![2016-05-29 20:04:07屏幕截图]
+~
+
+[2016-05-29 20:04:07屏幕截图]: images/2016-05-29-20-04-07-.png "2016-05-29 20:04:07屏幕截图" { width:auto; max-width:90% }
+
+# ZigBee 如何采样？
+
+~ End Vertical

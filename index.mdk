@@ -59,13 +59,35 @@ Package       : [UTF8]ctex
 
 
 ~ Begin Vertical 
-# 网关会看到什么样的序列？
+# Sequence:网关会看到什么样的序列？
 ~ Figure { #fig-figure; caption:"对于一个AP的序列"}
 ![2016-05-29 20:04:07屏幕截图]
 ~
 
 [2016-05-29 20:04:07屏幕截图]: images/2016-05-29-20-04-07-.png "2016-05-29 20:04:07屏幕截图" { width:auto; max-width:90% }
 
-# ZigBee 如何采样？
+# Sample:ZigBee 如何采样？
+~ Figure { #fig-figure; caption:"采样效果"}
+![2016-05-29 20:14:27屏幕截图]
+~
+
+[2016-05-29 20:14:27屏幕截图]: images/2016-05-29-20-14-27-.png "2016-05-29 20:14:27屏幕截图" { width:auto; max-width:90% }
+
+# Time drift:解决ZigBee 时间漂移
+~ Figure { #fig-figure; caption:"引入时间漂移率"}
+![2016-05-29 20:19:50屏幕截图]
+~
+
+
+[2016-05-29 20:19:50屏幕截图]: images/2016-05-29-20-19-50-.png "2016-05-29 20:19:50屏幕截图" { width:auto; max-width:90% }
+
+
+# Shape:“锐化”采样结果
+~ Figure { #fig-figure; caption:"锐化网关序列"}
+![2016-05-29 20:18:31屏幕截图]
+~
+
+
+[2016-05-29 20:18:31屏幕截图]: images/2016-05-29-20-18-31-.png "2016-05-29 20:18:31屏幕截图" { width:auto; max-width:90% }
 
 ~ End Vertical

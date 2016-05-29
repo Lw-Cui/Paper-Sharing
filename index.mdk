@@ -83,11 +83,24 @@ Package       : [UTF8]ctex
 
 
 # Shape:“锐化”采样结果
-~ Figure { #fig-figure; caption:"锐化网关序列"}
-![2016-05-29 20:18:31屏幕截图]
+~ Figure { #fig-figure; caption:"锐化公式"}
+![2016-05-29 20:27:13屏幕截图]
 ~
 
+[2016-05-29 20:27:13屏幕截图]: images/2016-05-29-20-27-13-.png "2016-05-29 20:27:13屏幕截图" { width:auto; max-width:90% }
 
-[2016-05-29 20:18:31屏幕截图]: images/2016-05-29-20-18-31-.png "2016-05-29 20:18:31屏幕截图" { width:auto; max-width:90% }
+
+# Mathch: 比对序列
+~ Figure { #fig-figure; caption:"生成sj"}
+![2016-05-29 20:28:10屏幕截图]
+~
+
+~ Figure { #fig-figure; caption:"相关性计算"}
+![2016-05-29 20:29:02屏幕截图]
+~
+
+[2016-05-29 20:28:10屏幕截图]: images/2016-05-29-20-28-10-.png "2016-05-29 20:28:10屏幕截图" { width:auto; max-width:90% }
+[2016-05-29 20:29:02屏幕截图]: images/2016-05-29-20-29-02-.png "2016-05-29 20:29:02屏幕截图" { width:auto; max-width:90% }
+
 
 ~ End Vertical

@@ -91,16 +91,31 @@ Package       : [UTF8]ctex
 
 
 # Mathch: 比对序列
-~ Figure { #fig-figure; caption:"生成sj"}
-![2016-05-29 20:28:10屏幕截图]
-~
 
 ~ Figure { #fig-figure; caption:"相关性计算"}
 ![2016-05-29 20:29:02屏幕截图]
 ~
 
-[2016-05-29 20:28:10屏幕截图]: images/2016-05-29-20-28-10-.png "2016-05-29 20:28:10屏幕截图" { width:auto; max-width:90% }
 [2016-05-29 20:29:02屏幕截图]: images/2016-05-29-20-29-02-.png "2016-05-29 20:29:02屏幕截图" { width:auto; max-width:90% }
 
+
+~ End Vertical
+
+~ Begin Vertical 
+# Definition:定义
+* $d_i$：帧长度
+* $\Delta t_i$: 每两帧间隔
+* $I$：采样间隔
+* $W_s$：传感器采样窗口尺寸
+* $W_G$：网关嗅探窗口尺寸
+* $W_s = \Psi W_s'$ 修正时间漂移
+* $\tau_{delay}$:网关与ZigBee 进行通信的延迟
+* $\tau_{guard}$:保证网关的采样在传感器接收到信号后
+
+# Model:建模
+* $X = (x_1, x_2, x_3, ..., x_n)$ 传感器采样结果 $(n = W_s / I)$
+* $\tilde{X} = (\tilde{x}_1, \tilde{x}_2, ...,\tilde{x}_n)$ 锐化结果
+* $\tilde{Y} = (\tilde{y}_1, \tilde{y}_2, ...,\tilde{y}_{\varepsilon})$ 网关得到的特征序列 $(\varepsilon = W_G / I)$
+* $\tilde{X}_{sub} = (\tilde{s}_1, \tilde{s}_2, ...,\tilde{s}_n)$ 进行匹配后得到的传感器序列
 
 ~ End Vertical

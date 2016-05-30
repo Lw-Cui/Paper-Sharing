@@ -22,12 +22,12 @@ Package       : [UTF8]ctex
 * 用户可移动到信号更好的地方进行连接
 * **用户可以享受到更好的服务**
 
-## premise:我们发现...
+# premise:我们发现...
 * 传感器网的部署越来越广泛
 * ZigBee 传感器可以感知到WiFi信号(虽然不能解码)
 * ZigBee 的采样和WiFi 的真实强度有着稳定的关系
 
-## Challenge:但也存在一些问题...
+# Challenge:但也存在一些问题...
 1. 可能有多个接入点同时发信号，ZigBee 分不出来
 * ZigBee 的采样范围太小
 * ZigBee 的时钟是不与网关同步的，并且有时钟漂移
@@ -59,12 +59,7 @@ Package       : [UTF8]ctex
 
 
 ~ Begin Vertical 
-# Sequence:网关会看到什么样的序列？
-~ Figure { #fig-figure; caption:"对于一个AP的序列"}
-![2016-05-29 20:04:07屏幕截图]
-~
 
-[2016-05-29 20:04:07屏幕截图]: images/2016-05-29-20-04-07-.png "2016-05-29 20:04:07屏幕截图" { width:auto; max-width:90% }
 
 # Sample:ZigBee 如何采样？
 ~ Figure { #fig-figure; caption:"采样效果"}
@@ -73,24 +68,34 @@ Package       : [UTF8]ctex
 
 [2016-05-29 20:14:27屏幕截图]: images/2016-05-29-20-14-27-.png "2016-05-29 20:14:27屏幕截图" { width:auto; max-width:90% }
 
-# Time drift:解决ZigBee 时间漂移
-~ Figure { #fig-figure; caption:"引入时间漂移率"}
-![2016-05-29 20:19:50屏幕截图]
+# Shape: 如何得到传感器序列？
+1. 如果信号强度小于-90dm 则该采样点置零
+* 剩下的采样点置一表示此时信道忙
+
+# Sniffers:网关会看到什么样的序列？
+~ Figure { #fig-figure; caption:"某个一个AP的序列"}
+![2016-05-29 20:04:07屏幕截图]
 ~
 
+[2016-05-29 20:04:07屏幕截图]: images/2016-05-29-20-04-07-.png "2016-05-29 20:04:07屏幕截图" { width:auto; max-width:90% }
 
-[2016-05-29 20:19:50屏幕截图]: images/2016-05-29-20-19-50-.png "2016-05-29 20:19:50屏幕截图" { width:auto; max-width:90% }
-
-
-# Shape:“锐化”采样结果
-~ Figure { #fig-figure; caption:"锐化公式"}
+# Digest:什么是特征序列？
+~ Figure { #fig-figure; caption:"获取特征序列"}
 ![2016-05-29 20:27:13屏幕截图]
 ~
 
 [2016-05-29 20:27:13屏幕截图]: images/2016-05-29-20-27-13-.png "2016-05-29 20:27:13屏幕截图" { width:auto; max-width:90% }
 
+# Subsequence: 如何通过特征序列来获得子序列？
+~ Figure { #fig-figure; caption:"Subsequence"}
+![2016-05-30 23:19:43屏幕截图]
+~
 
-# Mathch: 比对序列
+
+[2016-05-30 23:19:43屏幕截图]: images/2016-05-30-23-19-43-.png "2016-05-30 23:19:43屏幕截图" { width:auto; max-width:90% }
+
+
+# Mathch: 如何计算相关性？
 
 ~ Figure { #fig-figure; caption:"相关性计算"}
 ![2016-05-29 20:29:02屏幕截图]
@@ -99,18 +104,32 @@ Package       : [UTF8]ctex
 [2016-05-29 20:29:02屏幕截图]: images/2016-05-29-20-29-02-.png "2016-05-29 20:29:02屏幕截图" { width:auto; max-width:90% }
 
 
+# Time drift:如何解决ZigBee 时间漂移？
+~ Figure { #fig-figure; caption:"采样窗口引入偏移"}
+![2016-05-29 20:19:50屏幕截图]
+~
+~ Figure { #fig-figure; caption:"采样间隔引入偏移"}
+![2016-05-30 23:21:47屏幕截图]
+~
+
+[2016-05-30 23:21:47屏幕截图]: images/2016-05-30-23-21-47-.png "2016-05-30 23:21:47屏幕截图" { width:auto; max-width:90% }
+
+
+[2016-05-29 20:19:50屏幕截图]: images/2016-05-29-20-19-50-.png "2016-05-29 20:19:50屏幕截图" { width:auto; max-width:90% }
+
 ~ End Vertical
 
 ~ Begin Vertical 
 # Definition:定义
-* $d_i$：帧长度
-* $\Delta t_i$: 每两帧间隔
-* $I$：采样间隔
-* $W_s$：传感器采样窗口尺寸
-* $W_G$：网关嗅探窗口尺寸
-* $W_s = \Psi W_s'$ 修正时间漂移
+* $d_i$:帧长度
+* $\Delta t_i$:每两帧间隔
+* $I$:采样间隔
+* $W_s$:传感器采样窗口尺寸
+* $W_G$:网关嗅探窗口尺寸
+* $W_s = \Psi W_s'$ :修正时间漂移
 * $\tau_{delay}$:网关与ZigBee 进行通信的延迟
 * $\tau_{guard}$:保证网关的采样在传感器接收到信号后
+* $\tau$:解决两个延迟之间的不对齐
 
 # Model:建模
 * $X = (x_1, x_2, x_3, ..., x_n)$ 传感器采样结果 $(n = W_s / I)$

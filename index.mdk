@@ -92,13 +92,13 @@ Package       : [UTF8]ctex
 [2016-05-29 20:27:13屏幕截图]: images/2016-05-29-20-27-13-.png "2016-05-29 20:27:13屏幕截图" { width:auto; max-width:90% }
 
 # Subsequence: 如何通过特征序列来获得子序列？
-~ Figure { #fig-figure; caption:"Subsequence"}
-![2016-05-30 23:19:43屏幕截图]
-~
-
 ### $(\tilde{x}_{i-1+j},\tilde{x}_{i+j}, \tilde{x}_{i+1+j}...)$ 是一个传感器采样序列的子序列。
 ###$i$并没有被指定，因此可以代表从任何一处开始匹配的传感器序列.
 ### 所得到的$S_j$即为经特征序列"过滤"之后的序列
+
+~ Figure { #fig-figure; caption:"Subsequence"}
+![2016-05-30 23:19:43屏幕截图]
+~
 
 [2016-05-30 23:19:43屏幕截图]: images/2016-05-30-23-19-43-.png "2016-05-30 23:19:43屏幕截图" { width:auto; max-width:90% }
 
@@ -122,12 +122,40 @@ Package       : [UTF8]ctex
 
 
 # Time drift:如何解决ZigBee 时间漂移？
-~ Figure { #fig-figure; caption:"采样窗口引入偏移"}
+~ Figure { #fig-figure; caption:"对采样窗口引入偏移"}
 ![2016-05-29 20:19:50屏幕截图]
 ~
+~ Figure { #fig-figure; caption:"对采样间隔引入偏移"}
+![2016-05-31 16:10:36屏幕截图]
+~
+
+
+[2016-05-31 16:10:36屏幕截图]: images/2016-05-31-16-10-36-.png "2016-05-31 16:10:36屏幕截图" { width:auto; max-width:90% }
 
 [2016-05-29 20:19:50屏幕截图]: images/2016-05-29-20-19-50-.png "2016-05-29 20:19:50屏幕截图" { width:auto; max-width:90% }
 
+# Frame Importance: 不同帧的重要性
+~ Figure { #fig-figure; caption:"期望值v的计算公式"}
+![2016-05-31 16:03:38屏幕截图]
+~
+###通过$v_i$来衡量某一帧的重要性，用于计算最终ZigBee 得到的该AP的信号强度
+
+[2016-05-31 16:03:38屏幕截图]: images/2016-05-31-16-03-38-.png "2016-05-31 16:03:38屏幕截图" { width:auto; max-width:90% }
+
+# RSS: 最终的接收强度
+~ Figure { #fig-figure; caption:"ZigBee 计算出的信号强度"}
+![2016-05-31 16:07:18屏幕截图]
+~
+
+~ Figure { #fig-figure; caption:"WiFi 的信号强度"}
+![2016-05-31 16:08:49屏幕截图]
+~
+
+
+[2016-05-31 16:08:49屏幕截图]: images/2016-05-31-16-08-49-.png "2016-05-31 16:08:49屏幕截图" { width:auto; max-width:90% }
+
+
+[2016-05-31 16:07:18屏幕截图]: images/2016-05-31-16-07-18-.png "2016-05-31 16:07:18屏幕截图" { width:auto; max-width:90% }
 
 
 ~ End Vertical

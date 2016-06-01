@@ -91,7 +91,7 @@ Package       : [UTF8]ctex
 
 [2016-05-29 20:27:13屏幕截图]: images/2016-05-29-20-27-13-.png "2016-05-29 20:27:13屏幕截图" { width:auto; max-width:90% }
 
-# Subsequence: 如何通过特征序列来获得子序列？
+# Subsequence: ZigBee 如何通过特征序列进行比对？
 ### $(\tilde{x}_{i-1+j},\tilde{x}_{i+j}, \tilde{x}_{i+1+j}...)$ 是一个传感器采样序列的子序列。
 ###$i$并没有被指定，因此可以代表从任何一处开始匹配的传感器序列.
 ### 所得到的$S_j$即为经特征序列"过滤"之后的序列
@@ -112,7 +112,7 @@ Package       : [UTF8]ctex
 
 [2016-05-29 20:29:02屏幕截图]: images/2016-05-29-20-29-02-.png "2016-05-29 20:29:02屏幕截图" { width:auto; max-width:90% }
 
-# Evaluation: 评估匹配结果
+# Evaluation: 如何评估匹配结果？
 ### 最终的评价公式
 ~ Figure { #fig-figure; caption:"计算公式"}
 ![2016-05-31 15:27:29屏幕截图]
@@ -179,3 +179,45 @@ Package       : [UTF8]ctex
 * $\tilde{X}_{sub} = (\tilde{s}_1, \tilde{s}_2, ...,\tilde{s}_n)$ 进行匹配后得到的传感器序列
 
 ~ End Vertical
+
+# Section three 实验效果
+
+
+~ Begin Vertical 
+
+# metrics: 衡量标准
+* 错误率 $\varpi = |(RSS_{wifi} - RSS_{actual}) / RSS_{actual}|$
+* 延迟时间
+* 特异性*(FN rate)* 用于表示正确标记的百分比
+
+# Environment: 实验条件
+
+### 共有9个间隔5m 的传感器，中心放置网关，左下角右下角分别放置目标AP 和干扰AP。
+~ Figure { #fig-figure; caption:"传感器分布"}
+![2016-06-01 14:43:04屏幕截图]
+~
+
+[2016-06-01 14:43:04屏幕截图]: images/2016-06-01-14-43-04-.png "2016-06-01 14:43:04屏幕截图" { width:auto; max-width:90% }
+
+
+~ End Vertical
+
+~ Begin Vertical 
+  
+# Final: 生成的强度图
+~ Figure { #fig-figure; caption:"最终的Radio map"}
+![2016-06-01 14:49:29屏幕截图]
+~
+
+[2016-06-01 14:49:29屏幕截图]: images/2016-06-01-14-49-29-.png "2016-06-01 14:49:29屏幕截图" { width:auto; max-width:90% }
+
+# 干扰AP 的频道占有率
+~ Figure { #fig-figure; caption:"Estimation error rate"}
+![2016-06-01 14:53:26屏幕截图]
+~
+
+[2016-06-01 14:53:26屏幕截图]: images/2016-06-01-14-53-26-.png "2016-06-01 14:53:26屏幕截图" { width:auto; max-width:90% }
+
+~ End Vertical
+
+# Thanks for looking! :-)

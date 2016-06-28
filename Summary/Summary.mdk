@@ -1,0 +1,44 @@
+Title         : 论文回顾与总结
+Sub Title     : WiBee: Building WiFi Radio Map with ZigBee Sensor Networks
+Author        : 崔利伟
+Affiliation   : 计算机科学与工程学院
+Email         : cui@hellolw.com
+Package       : [UTF8]ctex
+
+Bibliography  : example.bib
+Doc class     : [reprint,nocopyrightspace]style/sigplanconf.cls
+
+[TITLE]
+
+~ Abstract
+本文回顾并总结了论文*WiBee: Building WiFi Radio Map with ZigBee Sensor Networks*[@paper]的写作思路，研究方法和自己的收获。
+~
+
+# 文章回顾     { #sec-intro }
+## 研究目的
+本文研究了如何通过ZigBee传感器网络来获得某一区域的无线信号强度分布图*(WiFi Radio Map)*。这个分布图可以告诉我们可以一个给定环境下不同地点的WiFi接入点的信号强度。它可以帮助用户：
+
+* 选择信号最好的接入点
+* 移动到信号更好的地方进行连接
+
+## 基于的前提
+这三个前提是作者研究的基础。
+
+* 传感器网的部署越来越广泛[@survey]
+* ZigBee 传感器可以感知到WiFi信号(虽然不能解码)
+* ZigBee 的采样和WiFi 的真实强度有着稳定的关系
+
+## 遇到的问题
+* 可能有多个接入点同时发信号，ZigBee 分不出来
+* ZigBee 的采样范围太小
+* ZigBee 的时钟是不与网关同步的，并且有时钟漂移
+
+## 解决方法
+## 创新点
+
+[BIB]
+
+&pagebreak;
+
+# 感想 { @h1:"A" }
+作者并没有认真对待。

@@ -1,0 +1,234 @@
+[INCLUDE=presentation]
+Title         : 文章分享
+Sub Title     : WiBee: Building WiFi Radio Map with ZigBee Sensor Networks
+Author        : 崔利伟
+Affiliation   : 哈尔滨工业大学
+Email         : cui@hellolw.com
+Reveal Theme  : sky
+Beamer Theme  : singapore
+Package       : [UTF8]ctex
+
+[TITLE]
+
+# Section one: 文章总览
+
+# What:做了什么？
+本文描述了如何通过**ZigBee传感器网络**来获得某一区域的**无线信号强度分布图(WiFi Radio Map)**。
+
+* 无线信号强度分布图*(WiFi Radio Map)*可以展示一个给定环境下不同地点的WiFi 接入点的信号强度。
+
+# Meaning:有什么意义？
+* 用户可以选择信号最好的接入点
+* 用户可移动到信号更好的地方进行连接
+* **用户可以享受到更好的服务**
+
+# premise:我们发现...
+* 传感器网的部署越来越广泛
+* ZigBee 传感器可以感知到WiFi信号(虽然不能解码)
+* ZigBee 的采样和WiFi 的真实强度有着稳定的关系
+
+# Challenge:但也存在一些问题...
+1. 可能有多个接入点同时发信号，ZigBee 分不出来
+* ZigBee 的采样范围太小
+* ZigBee 的时钟是不与网关同步的，并且有时钟漂移
+
+# Conclusion:所以...
+1. 我们可以用ZigBee 来采样
+* 使用网关来协助ZigBee 分出不同的AP
+* 通过算法来修正其中的错误
+* **最终获得信号强度分布图**
+
+
+# Section two: 具体设计
+
+~ Begin Vertical
+# Step by Step: 具体实现
+1. {.fragment}**用户**向**网关**发送请求，**网关**向**ZigBee**广播需要监听的频道
+* {.fragment}**ZigBee**开始对要监听的信道采样
+* {.fragment}**网关**嗅探该信道并获取一系列WiFi帧，之后向**ZigBee**广播每个**接入点**的特征序列
+*  {.fragment}**ZigBee**通过比对分离，计算出每个**接入点**的信号强度并送回**网关**
+* {.fragment}**网关**汇总结果并返回**用户**
+
+# architecture:具体架构
+~ Figure { #fig-figure; caption:"Architecture"}
+![2016-05-29 19:50:40屏幕截图]
+~
+
+[2016-05-29 19:50:40屏幕截图]: images/2016-05-29-19-50-40-.png "2016-05-29 19:50:40屏幕截图" { width:auto; max-width:90% }
+~ End Vertical
+
+
+~ Begin Vertical 
+
+
+# Sample:ZigBee 如何采样？
+### 
+~ Figure { #fig-figure; caption:"某一个时刻的采样结果"}
+![2016-05-29 20:14:27屏幕截图]
+~
+
+[2016-05-29 20:14:27屏幕截图]: images/2016-05-29-20-14-27-.png "2016-05-29 20:14:27屏幕截图" { width:auto; max-width:90% }
+
+# Shape: 如何得到传感器的采样结果？
+1. 如果信号强度小于-90dm 则该采样点置零
+* 剩下的采样点置一表示此时信道忙
+
+### 因此采样结果是一串自然数序列，而锐化后的结果是0/1序列
+
+# Sniffers:网关会看到什么样的序列？
+### 由于网关可以解码WiFi 帧，因此可以区分不同的AP; 据此可以得到该AP 的特征序列
+~ Figure { #fig-figure; caption:"某个一个AP的序列"}
+![2016-05-29 20:04:07屏幕截图]
+~
+
+[2016-05-29 20:04:07屏幕截图]: images/2016-05-29-20-04-07-.png "2016-05-29 20:04:07屏幕截图" { width:auto; max-width:90% }
+
+# Digest:如何得到特征序列？
+特征序列是一个由0或者1 构成的序列，用于发给ZigBee 用来判断AP
+~ Figure { #fig-figure; caption:"获取特征序列"}
+![2016-05-29 20:27:13屏幕截图]
+~
+
+[2016-05-29 20:27:13屏幕截图]: images/2016-05-29-20-27-13-.png "2016-05-29 20:27:13屏幕截图" { width:auto; max-width:90% }
+
+# Subsequence: ZigBee 如何通过特征序列进行比对？
+
+~ Figure { #fig-figure; caption:"Subsequence"}
+![2016-05-30 23:19:43屏幕截图]
+~
+
+### $(\tilde{x}_{i-1+j},\tilde{x}_{i+j}, \tilde{x}_{i+1+j}, ..., \tilde{x}_{i+1+{\varepsilon}})$ 是一个传感器采样序列的子序列。
+###$i$并没有被指定，因此可以代表从任何一处开始匹配的传感器序列.
+### 所得到的$S_j$即为经特征序列"过滤"之后的序列
+
+
+[2016-05-30 23:19:43屏幕截图]: images/2016-05-30-23-19-43-.png "2016-05-30 23:19:43屏幕截图" { width:auto; max-width:90% }
+
+
+# Mathch: 如何计算$\tilde{X}_{sub}$和$\tilde{Y}$的相关性？
+
+此处的计算利用了**皮尔逊相关系数(Pearson correlation)**来判断当前的子序列是不是该AP发送的。
+~ Figure { #fig-figure; caption:"相关性计算"}
+![2016-05-29 20:29:02屏幕截图]
+~
+
+[2016-05-29 20:29:02屏幕截图]: images/2016-05-29-20-29-02-.png "2016-05-29 20:29:02屏幕截图" { width:auto; max-width:90% }
+
+# Evaluation: 如何评估匹配结果？
+### 最终的评价公式
+~ Figure { #fig-figure; caption:"计算公式"}
+![2016-05-31 15:27:29屏幕截图]
+~
+
+[2016-05-31 15:27:29屏幕截图]: images/2016-05-31-15-27-29-.png "2016-05-31 15:27:29屏幕截图" { width:auto; max-width:90% }
+
+# Math:数学语言表述
+~ Figure { #fig-figure; caption:"优化问题"}
+![2016-06-01 15:14:06屏幕截图]
+~
+
+[2016-06-01 15:14:06屏幕截图]: images/2016-06-01-15-14-06-.png "2016-06-01 15:14:06屏幕截图" { width:auto; max-width:90% }
+
+# Time drift:如何解决ZigBee 时间漂移？
+~ Figure { #fig-figure; caption:"对采样窗口引入偏移"}
+![2016-05-29 20:19:50屏幕截图]
+~
+~ Figure { #fig-figure; caption:"对采样间隔引入偏移"}
+![2016-05-31 16:10:36屏幕截图]
+~
+
+
+[2016-05-31 16:10:36屏幕截图]: images/2016-05-31-16-10-36-.png "2016-05-31 16:10:36屏幕截图" { width:auto; max-width:90% }
+
+[2016-05-29 20:19:50屏幕截图]: images/2016-05-29-20-19-50-.png "2016-05-29 20:19:50屏幕截图" { width:auto; max-width:90% }
+
+# Frame Importance: 帧的重要性
+
+通过$v_i$来衡量某一帧的重要性，用于计算最终ZigBee 得到的该AP的信号强度。假设帧的到达服从均匀分布。
+~ Figure { #fig-figure; caption:"期望值v的计算公式"}
+![2016-06-01 15:30:17屏幕截图]
+![2016-05-31 16:03:38屏幕截图]
+~
+[2016-05-31 16:03:38屏幕截图]: images/2016-05-31-16-03-38-.png "2016-05-31 16:03:38屏幕截图" { width:auto; max-width:90% }
+
+[2016-06-01 15:30:17屏幕截图]: images/2016-06-01-15-30-17-.png "2016-06-01 15:30:17屏幕截图" { width:auto; max-width:90% }
+
+# RSS: 最终的接收强度
+~ Figure { #fig-figure; caption:"ZigBee 计算出的信号强度"}
+![2016-05-31 16:07:18屏幕截图]
+~
+
+~ Figure { #fig-figure; caption:"WiFi 的信号强度"}
+![2016-05-31 16:08:49屏幕截图]
+~
+
+
+[2016-05-31 16:08:49屏幕截图]: images/2016-05-31-16-08-49-.png "2016-05-31 16:08:49屏幕截图" { width:auto; max-width:90% }
+
+
+[2016-05-31 16:07:18屏幕截图]: images/2016-05-31-16-07-18-.png "2016-05-31 16:07:18屏幕截图" { width:auto; max-width:90% }
+
+
+~ End Vertical
+
+~ Begin Vertical 
+# Definition:定义
+* $d_i$:帧长度
+* $\Delta t_i$:每两帧间隔
+* $I$:采样间隔
+* $W_s$:传感器采样窗口尺寸
+* $W_G$:网关嗅探窗口尺寸
+* $\Psi/\psi$ :修正时间漂移
+* $\tau_{delay}$:网关与ZigBee 进行通信的延迟
+* $\tau_{guard}$:保证网关的采样在传感器接收到信号后
+* $\tau$:解决两个延迟之间的不对齐
+
+# Model:建模
+* $X = (x_1, x_2, x_3, ..., x_n)$ 传感器采样结果 $(n = W_s / I)$
+* $\tilde{X} = (\tilde{x}_1, \tilde{x}_2, ...,\tilde{x}_n)$ 锐化结果
+* $\tilde{Y} = (\tilde{y}_1, \tilde{y}_2, ...,\tilde{y}_{\varepsilon})$ 网关得到的特征序列 $(\varepsilon = W_G / I)$
+* $\tilde{X}_{sub} = (\tilde{s}_1, \tilde{s}_2, ...,\tilde{s}_n)$ 进行匹配后得到的传感器序列
+
+~ End Vertical
+
+# Section three 实验效果
+
+
+~ Begin Vertical 
+
+# metrics: 衡量标准
+* 错误率 $\varpi = |(RSS_{wifi} - RSS_{actual}) / RSS_{actual}|$
+* 延迟时间
+* 特异性*(FN rate)* 用于表示正确标记的百分比
+
+# Environment: 实验条件
+
+### 共有9个间隔5m 的传感器，中心放置网关，左下角右下角分别放置目标AP 和干扰AP。
+~ Figure { #fig-figure; caption:"传感器分布"}
+![2016-06-01 14:43:04屏幕截图]
+~
+
+[2016-06-01 14:43:04屏幕截图]: images/2016-06-01-14-43-04-.png "2016-06-01 14:43:04屏幕截图" { width:auto; max-width:90% }
+
+
+~ End Vertical
+
+~ Begin Vertical 
+  
+# Final: 生成的强度图
+~ Figure { #fig-figure; caption:"最终的Radio map"}
+![2016-06-01 14:49:29屏幕截图]
+~
+
+[2016-06-01 14:49:29屏幕截图]: images/2016-06-01-14-49-29-.png "2016-06-01 14:49:29屏幕截图" { width:auto; max-width:90% }
+
+# 干扰AP 的频道占有率
+~ Figure { #fig-figure; caption:"Estimation error rate"}
+![2016-06-01 14:53:26屏幕截图]
+~
+
+[2016-06-01 14:53:26屏幕截图]: images/2016-06-01-14-53-26-.png "2016-06-01 14:53:26屏幕截图" { width:auto; max-width:90% }
+
+~ End Vertical
+
+# Thanks for looking! :-)

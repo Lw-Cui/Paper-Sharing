@@ -14,6 +14,12 @@ Doc class     : [reprint,nocopyrightspace]style/sigplanconf.cls
 本文回顾并总结了论文*WiBee: Building WiFi Radio Map with ZigBee Sensor Networks*[@paper]的写作思路，研究方法和自己的收获。
 ~
 
+~ TexRaw
+% any commands necessary for your particular style
+\terms{信号强度分布图}
+\keywords{回顾, 总结}
+~
+
 # 文章回顾     { #sec-intro }
 ## 研究目的
 本文研究了如何通过ZigBee传感器网络来获得某一区域的无线信号强度分布图*(WiFi Radio Map)*。这个分布图可以告诉我们可以一个给定环境下不同地点的WiFi接入点的信号强度[@other-method]。它可以帮助用户：
@@ -41,15 +47,17 @@ Doc class     : [reprint,nocopyrightspace]style/sigplanconf.cls
 * ZigBee进行间断采样
 * 通过修正因子[@dirftRate]来修正其中的错误
 
-但事实上这些方法都具有很大的不确定性，尤其是多个参数引入涉及到许多实验值，并不能真实地反应一般情况。这也是作者在文中没有明确说明的。
+但事实上这些方法都具有很大的不确定性，尤其是多个参数引入涉及到许多实验值，并不能真实地反应一般情况。在后文中还有叙述。
 
-## 最终方案
+## 实现方案
 
 1. 用户向网关发送请求，网关向ZigBee 广播需要监听的频道
 * ZigBee 开始对要监听的信道采样
 * 网关嗅探该信道并获取一系列WiFi帧，之后向ZigBee 广播每个接入点的特征序列
 * ZigBee 通过比对分离，计算出每个接入点的信号强度并送回网关
 * 网关汇总结果并返回用户
+
+作者对自己算法做了实验，在一个接入AP， 一个干扰AP， 九个ZigBee 节点的环境下得到了结果。
 
 # 创新点
 ## 网关和ZigBee 的配合
@@ -60,8 +68,10 @@ Doc class     : [reprint,nocopyrightspace]style/sigplanconf.cls
 
 # 不足之处与启发
 ## 不足
-从网关处得到的特征序列和ZigBee的序列需要进行匹配，而这个匹配结果对于后续的操作非常重要。因此作者不仅使用了皮尔逊相关系数[@Correlation]而且为进行了一个类似经验公式的修正。由此得到的数学模型缺乏理论支持。
+### 理论支持不充分
+从网关处得到的特征序列和ZigBee的序列需要进行匹配，而这个匹配结果对于后续的操作非常重要。因此作者使用了皮尔逊相关系数[@Correlation]，但为进行了一个类似经验公式的修正。由此得到的数学模型缺乏理论支持。
 
+### 没有明确说明参数的取值缘由
 正如我在前文提到的，作者并没有说清楚许多参数的取值过程。事实上，这些参数相当依赖当前的网络环境，因此这套系统非常不好移植再现。作者的实验条件也非常理想，但即使在这样的条件下当惟一的干扰源进行传输时效果也明显变差，说明模型还欠妥当。
 
 ## 启发
